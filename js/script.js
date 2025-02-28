@@ -94,6 +94,7 @@ document.getElementById("add-to-cart").addEventListener("click", function () {
     });
 
      console.log(cartItems);
+     alert("Item successfully added to cart!");
   } 
   else {
     alert("Please select a quantity...");
@@ -103,12 +104,19 @@ document.getElementById("add-to-cart").addEventListener("click", function () {
 document.getElementById("checkout-btn").addEventListener("click", function () {
    const cartModal = document.getElementById("cart-modal");
     const cartConatainer = document.getElementById("cart-items");
+  
+    cartConatainer.innerHTML = ""; // Clear previous items
+    let totalPrice = 0;
+
+
     for (let i = 0; i < cartItems.length; i++) {
        // console.log(cartItems);
      const item = cartItems[i];
     // console.log(item);
-     const row = document.createElement("tr");
-     row.classList.add("border-b");
+    totalPrice += item.price;
+
+    const row = document.createElement("tr");
+    row.classList.add("border-b");
     row.innerHTML = `
     <td class="py-2 px-4">
       <div class="flex items-center space-x-2">
@@ -120,9 +128,17 @@ document.getElementById("checkout-btn").addEventListener("click", function () {
     <td class="py-2 px-4">${item.size}</td>
     <td class="py-2 px-4">${item.quantity}</td>
     <td class="py-2 px-4">$${item.price}</td>
+    
     `;
     cartConatainer.appendChild(row);
   }
+   // Add total price row
+   const totalRow = document.createElement("tr");
+   totalRow.innerHTML = `
+       <td colspan="4" class="py-2 px-4 text-right font-semibold">Total:</td>
+       <td class="py-2 px-4 font-semibold">$${totalPrice}</td>
+   `;
+   cartConatainer.appendChild(totalRow);
 
    cartModal.classList.remove("hidden");
 });
